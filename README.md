@@ -11,7 +11,7 @@ structure prediction .
 * [BAT](!http://dx.doi.org/10.1007/978-3-642-12538-6_6)
 * [MVO](!http://dx.doi.org/10.1007/s00521-015-1870-7)
 
-## How to use 
+## How to use: 
 
 Note that when using linux server or similar environments, you may need to run via e.g.:
 
