@@ -1,6 +1,5 @@
 function result=selector(algo,fobj,PopSize,MaxIteration,lb,ub,dim)
 %Optimizers={'PSO', 'MVO', 'GWO', 'MFO', 'CSA', 'BAT', 'WOA', 'FFA','CFA'};
-%  algo,fobj,PopSize,MaxIteration,lb,ub,dim
   tic;
   if algo =='PSO'
     [BestSolution,BestFitness,Iteration]=PSO(PopSize,MaxIteration,lb,ub,dim,fobj)
