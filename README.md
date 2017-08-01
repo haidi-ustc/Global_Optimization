@@ -6,9 +6,13 @@ structure prediction .
 ### Table of contents:
 
 * [CFA](!https://sites.google.com/site/cuttlefishalgortihm/)
+
 * [PSO](!https://en.wikipedia.org/wiki/Particle_swarm_optimization)
+
 * [CS](!http://dx.doi.org/10.1109/NABIC.2009.5393690)
+
 * [BAT](!http://dx.doi.org/10.1007/978-3-642-12538-6_6)
+
 * [MVO](!http://dx.doi.org/10.1007/s00521-015-1870-7)
 
 ## How to use: 
