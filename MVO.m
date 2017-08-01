@@ -31,9 +31,6 @@
 % If all the variables have equal lower bound you can just
 % define lb and ub as two single number numbers
 
-% To run MVO: [Best_score,Best_pos,cg_curve]=MVO(Universes_no,Max_iteration,lb,ub,FuncDimension,fobj)
-%__________________________________________
-
 function [BestSolution,BestFitness,Iteration]=CFA(PopSize,MaxIteration,lb,ub,FuncDimension,fobj)
 
 %Two variables for saving the position and inflation rate (fitness) of the best universe

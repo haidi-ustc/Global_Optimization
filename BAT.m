@@ -31,7 +31,6 @@
 
 
 % Main programs starts here
-%function [best,fmin,N_iter]=bat_algorithm(para)
 function [BestSolution,BestFitness,Iteration]=CFA(PopSize,MaxIteration,lb,ub,FuncDimension,fobj)
 % Display help
 
