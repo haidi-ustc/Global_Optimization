@@ -1,5 +1,5 @@
 function [BestSolution,BestFitness,Iteration]=PSO(PopSize,MaxIteration,lb,ub,FuncDimension,fobj)
-
+%default parames
 c1 = 2;
 c2 = 2;
 w = 0.7;
