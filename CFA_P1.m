@@ -1,6 +1,6 @@
-function [BestSolution,BestFitness,Iteration]=CFA_P(PopSize,MaxIteration,lb,ub,FuncDimension,fobj)
+function [BestSolution,BestFitness,Iteration]=CFA_P1(PopSize,MaxIteration,lb,ub,FuncDimension,fobj)
 
-% used to simulate the parallel version
+% used to simulate the parallel version 
 
 if mod(PopSize,4)~=0
    PopSize=20
@@ -37,145 +37,144 @@ GlobalFitnessBest=zeros(MaxIteration,2);
 while Iter <= MaxIteration 
   
 % for case 1 and 2
-    Best_copy=Best;
-    FBest_copy=FBest;
+    tmp_cell=zeros(FuncDimension,size(G(:,:,1),1));
     for cell=1:size(G(:,:,1),1)
-        tmp_cell=zeros(1,FuncDimension);
         boundary_len=length(ub);
         for point=1:size(G(:,:,1),2)
 
             R=rand*(r1-r2)+r2;
-            %V=rand*(v1-v2)+v2;
-            V=1;
+            V=rand*(v1-v2)+v2;
+            %V=1;
             reflection=R*G(cell,point,1);
-            visibility=V*(Best_copy(point)-G(cell,point,1));
-            tmp_cell(point)=reflection+visibility;
+            visibility=V*(Best(point)-G(cell,point,1));
+            tmp_cell(point,cell)=reflection+visibility;
             if boundary_len==1
-               if tmp_cell(point)>ub
-                  tmp_cell(point)=ub;
+               if tmp_cell(point,cell)>ub
+                  tmp_cell(point,cell)=ub;
                end 
-               if tmp_cell(point)<lb
-                  tmp_cell(point)=ub;
+               if tmp_cell(point,cell)<lb
+                  tmp_cell(point,cell)=ub;
                end 
             else
                % assume the lenth of ub equals to FuncDimension
-               if tmp_cell(point)>ub(point)
-                  tmp_cell(point)=ub(point);
+               if tmp_cell(point,cell)>ub(point)
+                  tmp_cell(point,cell)=ub(point);
                end 
-               if tmp_cell(point)<lb(point)
-                  tmp_cell(point)=lb(point);
+               if tmp_cell(point,cell)<lb(point)
+                  tmp_cell(point,cell)=lb(point);
                end
             end
         end
-        Fitness_new=fobj(tmp_cell);
-        if Fitness_new< FBest_copy
-            Best=tmp_cell;
+    end
+    for cell=1:size(G(:,:,1),1)
+        Fitness_new=fobj(tmp_cell(:,cell)');
+        if Fitness_new< FBest
+            Best=tmp_cell(:,cell)';
             FBest=Fitness_new;
         end
         if Fitness_new < fobj(G(cell,:,1))
-            G(cell,:,1)=tmp_cell;
+            G(cell,:,1)=tmp_cell(:,cell)';
         end
     end
 
 % for case 3 and 4
-    Best_copy=Best;
-    FBest_copy=FBest;
-
+    tmp_cell=zeros(FuncDimension,size(G(:,:,2),1));
     boundary_len=length(ub);
     for cell=1:size(G(:,:,2),1)
-        tmp_cell=zeros(1,FuncDimension);
         for point=1:size(G(:,:,2),2)
             %R=rand*(v1-v2)+v2;
             R=1;
             V=rand*(r1-r2)+r2;
             reflection=R*Best(point);
-            visibility=V*(Best_copy(point)-G(cell,point,2));
-            tmp_cell(point)=reflection+visibility;
+            visibility=V*(Best(point)-G(cell,point,2));
+            tmp_cell(point,cell)=reflection+visibility;
             if boundary_len==1
-               if tmp_cell(point)>ub
-                  tmp_cell(point)=ub;
+               if tmp_cell(point,cell)>ub
+                  tmp_cell(point,cell)=ub;
                end
-               if tmp_cell(point)<lb
-                  tmp_cell(point)=ub;
+               if tmp_cell(point,cell)<lb
+                  tmp_cell(point,cell)=ub;
                end
             else
                % assume the lenth of ub equals to FuncDimension
-               if tmp_cell(point)>ub(point)
-                  tmp_cell(point)=ub(point);
+               if tmp_cell(point,cell)>ub(point)
+                  tmp_cell(point,cell)=ub(point);
                end
-               if tmp_cell(point)<lb(point)
-                  tmp_cell(point)=lb(point);
+               if tmp_cell(point,cell)<lb(point)
+                  tmp_cell(point,cell)=lb(point);
                end
             end
         end
-        Fitness_new=fobj(tmp_cell);
-        if Fitness_new< FBest_copy
-             Best=tmp_cell;
+   end
+   for cell=1:size(G(:,:,2),1)
+        Fitness_new=fobj(tmp_cell(:,cell)');
+        if Fitness_new< FBest
+             Best=tmp_cell(:,cell)';
              FBest=Fitness_new;
         end
         if Fitness_new < fobj(G(cell,:,2))
-             G(cell,:,2)=tmp_cell;
+             G(cell,:,2)=tmp_cell(:,cell)';
         end
     end 
 % for case 5
+    
     AVBest=mean(Best);
-    Best_copy=Best;
-    FBest_copy=FBest;
-
+    tmp_cell=zeros(FuncDimension,size(G(:,:,3),1));
     boundary_len=length(ub);
     for cell=1:size(G(:,:,3),1)
-        tmp_cell=zeros(1,FuncDimension);
         for point=1:size(G(:,:,3),2)
             %R=rand*(v1-v2)+v2;
             R=1;
             V=rand*(r1-r2)+r2;
-            reflection=R*Best_copy(point);
-            visibility=V*(Best_copy(point)-AVBest);
-            tmp_cell(point)=reflection+visibility;
+            reflection=R*Best(point);
+            visibility=V*(Best(point)-AVBest);
+            tmp_cell(point,cell)=reflection+visibility;
             if boundary_len==1
-               if tmp_cell(point)>ub
-                  tmp_cell(point)=ub;
+               if tmp_cell(point,cell)>ub
+                  tmp_cell(point,cell)=ub;
                end
-               if tmp_cell(point)<lb
-                  tmp_cell(point)=ub;
+               if tmp_cell(point,cell)<lb
+                  tmp_cell(point,cell)=ub;
                end
             else
                % assume the lenth of ub equals to FuncDimension
-               if tmp_cell(point)>ub(point)
-                  tmp_cell(point)=ub(point);
+               if tmp_cell(point,cell)>ub(point)
+                  tmp_cell(point,cell)=ub(point);
                end
-               if tmp_cell(point)<lb(point)
-                  tmp_cell(point)=lb(point);
+               if tmp_cell(point,cell)<lb(point)
+                  tmp_cell(point,cell)=lb(point);
                end
            end
         end
-        Fitness_new=fobj(tmp_cell);
-        if Fitness_new< FBest_copy
-             Best=tmp_cell;
+    end
+    for cell=1:size(G(:,:,3),1)
+        Fitness_new=fobj(tmp_cell(:,cell)');
+        if Fitness_new< FBest
+             Best=tmp_cell(:,cell)';
              FBest=Fitness_new;
         end
         if Fitness_new < fobj(G(cell,:,3))
-             G(cell,:,3)=tmp_cell;
+             G(cell,:,3)=tmp_cell(:,cell)';
         end
     end
 % for case 6
-    Best_copy=Best;
-    FBest_copy=FBest;
-
+    tmp_cell=zeros(FuncDimension,size(G(:,:,4),1));
     for cell=1:size(G(:,:,4),1)
-        tmp_cell=random_pop(1,FuncDimension,ub,lb);
-        Fitness_new=fobj(tmp_cell);
-        if Fitness_new< FBest_copy
-          Best=tmp_cell;
+        tmp_cell(:,cell)=random_pop(1,FuncDimension,ub,lb);
+    end 
+    for cell=1:size(G(:,:,4),1)
+        Fitness_new=fobj(tmp_cell(:,cell)');
+        if Fitness_new< FBest
+          Best=tmp_cell(:,cell)';
           FBest=Fitness_new;
         end
         if Fitness_new < fobj(G(cell,:,3))
-            G(cell,:,3)=tmp_cell;
+            G(cell,:,3)=tmp_cell(:,cell)';
         end
     end
     Iter=Iter+1;
     %Print the best universe details after every 100 iterations
-    if mod(Iter,100)==0
+    if mod(Iter,20)==0
         display(['At iteration ', num2str(Iter), ' the best fitness is ', num2str(FBest)]);
     end
 

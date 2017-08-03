@@ -34,7 +34,6 @@ AllFitness(1,:)=Fitness;
 GlobalFitnessBest=zeros(MaxIteration,2);
 while Iter <= MaxIteration 
   
-    AVBest=mean(Best);
 % for case 1 and 2
     for cell=1:size(G(:,:,1),1)
         tmp_cell=zeros(1,FuncDimension);
@@ -112,6 +111,7 @@ while Iter <= MaxIteration
         end
     end 
 % for case 5
+    AVBest=mean(Best);
     boundary_len=length(ub);
     for cell=1:size(G(:,:,3),1)
         tmp_cell=zeros(1,FuncDimension);
